@@ -1,0 +1,170 @@
+server:
+  port: 8091
+
+spring:
+  profiles:
+    active: test
+---
+
+spring:
+  profiles: dev
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    jdbc-url: jdbc:postgresql://localhost:5432/roots
+    url: jdbc:postgresql://localhost:5432/roots
+    username: roots_role
+    password: rootsPwd
+    hikari:
+      pool-name: PostgresHikariPool
+      connection-timeout: 30000 # maximum number of milliseconds that a client will wait for a connection
+      minimum-idle: 0 # minimum number of idle connections maintained by HikariCP in a connection pool
+      maximum-pool-size: 500 # maximum pool size
+      idle-timeout: 10000 # maximum idle time for connection
+      max-lifetime: 1800000 # maximum lifetime in milliseconds of a connection in the pool after it is closed.
+      auto-commit: true # default auto-commit behavior.
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
+    database: postgresql
+    show-sql: false
+    open-in-view: false
+    generate-ddl: false
+    properties:
+      hibernate:
+        temp:
+          use_jdbc_metadata_defaults: false
+        jdbc:
+          lob:
+            non_contextual_creation: true
+#  http:
+#    converters:
+#      preferred-json-mapper: gson
+logging:
+  level:
+    root: OFF
+    co.logike:
+      roots: INFO
+    org:
+      springframework: OFF
+      hibernate: INFO
+    com:
+      zaxxer:
+        hikari:
+          HikariConfig: INFO
+      org:
+        springframework: INFO
+        hibernate: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} %-5level [%logger{36}] - %msg%n"
+msg:
+  welcome: Welcome message from dev profile!
+
+---
+
+spring:
+  profiles: test
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    jdbc-url: jdbc:postgresql://localhost:5432/roots
+    url: jdbc:postgresql://localhost:5432/roots
+    username: roots_role
+    password: rootsPwd
+    hikari:
+      pool-name: PostgresHikariPool
+      connection-timeout: 30000
+      minimum-idle: 0
+      maximum-pool-size: 500
+      idle-timeout: 10000
+      max-lifetime: 1800000
+      auto-commit: true
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
+    database: postgresql
+    show-sql: false
+    open-in-view: false
+    generate-ddl: false
+    properties:
+      hibernate:
+        temp:
+          use_jdbc_metadata_defaults: false
+        jdbc:
+          lob:
+            non_contextual_creation: true
+#  http:
+#    converters:
+#      preferred-json-mapper: gson
+logging:
+  level:
+    root: INFO
+    co.logike:
+      roots: INFO
+    org:
+      springframework:
+        web: INFO
+      hibernate: INFO
+    com:
+      zaxxer:
+        hikari:
+          HikariConfig: INFO
+      org:
+        springframework: INFO
+        hibernate: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} %-5level [%logger{36}] - %msg%n"
+msg:
+  welcome: Welcome message from test profile!
+
+---
+
+spring:
+  profiles: prd
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    jdbc-url: jdbc:postgresql://localhost:5432/roots
+    url: jdbc:postgresql://localhost:5432/roots
+    username: roots_role
+    password: rootsPwd
+    hikari:
+      pool-name: PostgresHikariPool
+      connection-timeout: 30000
+      minimum-idle: 0
+      maximum-pool-size: 500
+      idle-timeout: 10000
+      max-lifetime: 1800000
+      auto-commit: true
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
+    database: postgresql
+    show-sql: false
+    open-in-view: false
+    generate-ddl: false
+    properties:
+      hibernate:
+        temp:
+          use_jdbc_metadata_defaults: false
+        jdbc:
+          lob:
+            non_contextual_creation: true
+#  http:
+#    converters:
+#      preferred-json-mapper: gson
+logging:
+  level:
+    root: INFO
+    co.logike:
+      roots: INFO
+    org:
+      springframework:
+        web: INFO
+      hibernate: INFO
+    com:
+      zaxxer:
+        hikari:
+          HikariConfig: INFO
+      org:
+        springframework: INFO
+        hibernate: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} %-5level [%logger{36}] - %msg%n"
+msg:
+  welcome: Welcome message from prd profile!
+
