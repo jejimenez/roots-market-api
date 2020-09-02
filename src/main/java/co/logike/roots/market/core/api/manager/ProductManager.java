@@ -4,7 +4,9 @@
  */
 package co.logike.roots.market.core.api.manager;
 
+import co.logike.roots.market.core.api.events.CommandEvent;
 import co.logike.roots.market.core.api.events.QueryEvent;
+import co.logike.roots.market.core.api.events.QueryPKEvent;
 import co.logike.roots.market.core.api.events.ResponseEvent;
 import co.logike.roots.market.core.api.objects.ProductDTO;
 import co.logike.roots.market.core.app.entity.Product;
@@ -21,11 +23,13 @@ import java.util.List;
  */
 public interface ProductManager {
 
-  ResponseEvent<List<ProductDTO>> read(QueryEvent requestEvent);
-//
-//  ResponseEvent<ProductDTO> read(QueryPKEvent<String> requestEvent);
-//
-//  ResponseEvent<ProductDTO> create(CommandEvent<ProductDTO> requestEvent);
-//
-//  ResponseEvent<ProductDTO> update(CommandEvent<ProductDTO> requestEvent, String id);
+  ResponseEvent<List<ProductDTO>> readAll();
+
+  ResponseEvent<ProductDTO> read(QueryPKEvent<String> requestEvent);
+
+  ResponseEvent<ProductDTO> create(CommandEvent<ProductDTO> requestEvent);
+
+  ResponseEvent<ProductDTO> update(CommandEvent<ProductDTO> requestEvent, String id);
+
+  ResponseEvent<String> delete(CommandEvent<String> requestEvent);
 }

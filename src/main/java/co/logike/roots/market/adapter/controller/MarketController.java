@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Slf4j
 @RestController
-public class MarketController {
+public class  MarketController {
 
   @Value("${msg.welcome}")
   private String welcomeMessage;

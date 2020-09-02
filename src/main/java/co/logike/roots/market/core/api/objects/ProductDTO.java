@@ -22,13 +22,14 @@ public class ProductDTO implements Serializable {
     private static final long serialVersionUID = -3930835383784966694L;
 
     private String id;
-    private String units;
-    private String category;
     private String name;
     private String description;
+    private String category;
+    private String producer;
+    private String quantity;
+    private String unit;
     private String cost;
-    private String label;
-    private String organization;
+    private String labels;
 
     @Override
     public String toString() {

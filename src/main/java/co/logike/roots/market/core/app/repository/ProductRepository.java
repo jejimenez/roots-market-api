@@ -6,6 +6,8 @@ package co.logike.roots.market.core.app.repository;
 
 import co.logike.roots.market.core.app.entity.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -16,11 +18,8 @@ import org.springframework.stereotype.Repository;
  * @since 1.0
  */
 @Repository
-public interface ProductRepository extends JpaRepository<Product, String> {
-//
-//    @Query(value = "SELECT * FROM PRODUCT WHERE NAME = :productName", nativeQuery = true)
-//    Product findByName(@Param("productName") String productName);
-//
-//    @Query(value = "SELECT * FROM PRODUCT WHERE IDENT = :ident", nativeQuery = true)
-//    Product findByIdent(@Param("ident") Long ident);
+public interface ProductRepository extends JpaRepository<Product, Long> {
+
+    @Query(value = "SELECT * FROM PRODUCT WHERE ID_ = :id", nativeQuery = true)
+    Product findByIdent(@Param("id") Long id);
 }
