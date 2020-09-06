@@ -3,6 +3,7 @@
 /.sts4-cache/
 /.vscode/
 /target/
+/.externalToolBuilders/
 *.classpath
 *.factorypath
 *.project
