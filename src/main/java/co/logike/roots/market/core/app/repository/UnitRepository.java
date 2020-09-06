@@ -4,7 +4,6 @@
  */
 package co.logike.roots.market.core.app.repository;
 
-import co.logike.roots.market.core.app.entity.Category;
 import co.logike.roots.market.core.app.entity.Unit;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
