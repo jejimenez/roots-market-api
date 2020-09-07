@@ -13,7 +13,7 @@ import java.util.Collection;
 import java.util.Objects;
 
 /**
- * Users entity.
+ * Person entity.
  *
  * @author <a href="mailto:javier.latorre@logike.co">Javier Latorre</a>
  * @version 1.0 2020-09-01
@@ -27,7 +27,8 @@ public class Person implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "person_id_seq", sequenceName = "person_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "person_id_seq")
     @Basic(optional = false)
     @Column(name = "id_")
     private Long id;
@@ -79,17 +80,17 @@ public class Person implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Person users = (Person) o;
-        return Objects.equals(id, users.id) &&
-                Objects.equals(nickname, users.nickname) &&
-                Objects.equals(email, users.email) &&
-                Objects.equals(name, users.name) &&
-                Objects.equals(password, users.password) &&
-                Objects.equals(address, users.address) &&
-                Objects.equals(mapLatitude, users.mapLatitude) &&
-                Objects.equals(mapLongitude, users.mapLongitude) &&
-                Objects.equals(ethKey, users.ethKey) &&
-                Objects.equals(ethAddress, users.ethAddress);
+        Person persons = (Person) o;
+        return Objects.equals(id, persons.id) &&
+                Objects.equals(nickname, persons.nickname) &&
+                Objects.equals(email, persons.email) &&
+                Objects.equals(name, persons.name) &&
+                Objects.equals(password, persons.password) &&
+                Objects.equals(address, persons.address) &&
+                Objects.equals(mapLatitude, persons.mapLatitude) &&
+                Objects.equals(mapLongitude, persons.mapLongitude) &&
+                Objects.equals(ethKey, persons.ethKey) &&
+                Objects.equals(ethAddress, persons.ethAddress);
     }
 
     @Override

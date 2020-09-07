@@ -37,7 +37,7 @@ public class Review implements Serializable {
     @Column(name = "description_")
     private String description;
 
-    @JoinColumn(name = "user_", referencedColumnName = "id_")
+    @JoinColumn(name = "person_", referencedColumnName = "id_")
     @ManyToOne(optional = false)
     private Person person;
 

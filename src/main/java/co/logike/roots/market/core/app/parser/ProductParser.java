@@ -27,10 +27,10 @@ public class ProductParser {
         domain.setName(entity.getName());
         domain.setId(entity.getId().toString());
         domain.setCategory(entity.getCategory().getName());
-        domain.setCost(entity.getCost().toString());
+        domain.setCost(entity.getCost() == null ? "" : entity.getCost().toString());
         domain.setLabels(entity.getLabels());
         domain.setProducer(entity.getProducer().getOrganization().getName());
-        domain.setQuantity(entity.getQuantity().toString());
+        domain.setQuantity(entity.getQuantity() == null ? "" : entity.getQuantity().toString());
         domain.setUnit(entity.getUnit().getName());
         return domain;
     }
