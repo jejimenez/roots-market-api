@@ -27,6 +27,8 @@ public interface ProductManager {
 
   ResponseEvent<ProductDTO> read(QueryPKEvent<String> requestEvent);
 
+  ResponseEvent<List<ProductDTO>> readByPurchaseOrder(QueryPKEvent<String> requestEvent);
+
   ResponseEvent<ProductDTO> create(CommandEvent<ProductDTO> requestEvent);
 
   ResponseEvent<ProductDTO> update(CommandEvent<ProductDTO> requestEvent, String id);

@@ -67,6 +67,30 @@ public class ProductManagerHandler implements ProductManager {
         }
     }
 
+
+    @Override
+    public ResponseEvent<List<ProductDTO>> readByPurchaseOrder(QueryPKEvent<String> requestEvent) {
+        log.debug("method: readByPurchaseOrder()");
+        try {
+            if (requestEvent == null)
+                return new ResponseEvent<List<ProductDTO>>().badRequest("event is null.");
+            if (requestEvent.getRequest() == null)
+                return new ResponseEvent<List<ProductDTO>>().badRequest("event.request is null.");
+            final String id = requestEvent.getRequest();
+            Long idL = Long.valueOf(id);
+            List<ProductDTO> finalList = new ArrayList<>();
+            List<Product> productList = repository.findByPurchaseOrder(idL);
+            for (Product product : productList) {
+                ProductDTO productDTO = ProductParser.setProductDTO(product);
+                finalList.add(productDTO);
+            }
+            return new ResponseEvent<List<ProductDTO>>().ok("Success", finalList);
+        } catch (Exception ex) {
+            log.error("method: read({}, {})", ex.getMessage(), ex);
+            return new ResponseEvent<List<ProductDTO>>().conflict(ex.getMessage());
+        }
+    }
+
     @Override
     public ResponseEvent<ProductDTO> read(QueryPKEvent<String> requestEvent) {
         log.info("method: read({})", requestEvent);
