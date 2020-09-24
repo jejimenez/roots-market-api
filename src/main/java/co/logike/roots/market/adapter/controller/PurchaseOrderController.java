@@ -8,8 +8,10 @@ import co.logike.roots.market.adapter.parser.ResponseEntityUtility;
 import co.logike.roots.market.core.api.events.CommandEvent;
 import co.logike.roots.market.core.api.events.QueryPKEvent;
 import co.logike.roots.market.core.api.events.ResponseEvent;
+import co.logike.roots.market.core.api.manager.OrderProductManager;
 import co.logike.roots.market.core.api.manager.ProductManager;
 import co.logike.roots.market.core.api.manager.PurchaseOrderManager;
+import co.logike.roots.market.core.api.objects.OrderProductDTO;
 import co.logike.roots.market.core.api.objects.ProductDTO;
 import co.logike.roots.market.core.api.objects.PurchaseOrderDTO;
 import io.swagger.v3.oas.annotations.Operation;
@@ -36,11 +38,13 @@ public class PurchaseOrderController {
 
     private final PurchaseOrderManager manager;
     private final ProductManager managerProduct;
+    private final OrderProductManager managerOrderProduct;
 
     @Autowired
-    public PurchaseOrderController(PurchaseOrderManager manager, ProductManager managerProduct) {
+    public PurchaseOrderController(PurchaseOrderManager manager, ProductManager managerProduct, OrderProductManager managerOrderProduct) {
         this.manager = manager;
         this.managerProduct = managerProduct;
+        this.managerOrderProduct = managerOrderProduct;
     }
 
     @GetMapping
@@ -87,6 +91,29 @@ public class PurchaseOrderController {
         final CommandEvent<PurchaseOrderDTO> requestEvent = new CommandEvent<>();
         requestEvent.setRequest(domain);
         final ResponseEvent<PurchaseOrderDTO> responseEvent = manager.create(requestEvent);
+        log.debug("method: create({}) -> {}", domain, responseEvent);
+        //
+        if(responseEvent.getData() != null && responseEvent.getData().getId() != null) {
+	        if(domain.getOrderProducts() != null && domain.getOrderProducts().size() > 0 ) {
+		        final CommandEvent<List<OrderProductDTO>> requestEventProducts = new CommandEvent<>();
+		        requestEventProducts.setRequest(domain.getOrderProducts());
+		        final ResponseEvent<List<OrderProductDTO>> responseEventProducts = managerOrderProduct.createList(responseEvent.getData().getId(), requestEventProducts);
+		        log.debug("method: create({}) -> {}", domain, responseEventProducts);
+	        }
+        }
+        //
+        return ResponseEntityUtility.buildHttpResponse(responseEvent);
+    }
+
+
+    @PostMapping("/{id}/productos/")
+    @ResponseBody
+    @Operation(summary = "Create orderProducts of Purchase Order")
+    public ResponseEntity<ResponseEvent< List<OrderProductDTO>>> createOrderProducts(@PathVariable("id") String id, @RequestBody List<OrderProductDTO> domain) {
+        log.debug("method: create({})", domain);
+        final CommandEvent<List<OrderProductDTO>> requestEvent = new CommandEvent<>();
+        requestEvent.setRequest(domain);
+        final ResponseEvent<List<OrderProductDTO>> responseEvent = managerOrderProduct.createList(id, requestEvent);
         log.debug("method: create({}) -> {}", domain, responseEvent);
         return ResponseEntityUtility.buildHttpResponse(responseEvent);
     }

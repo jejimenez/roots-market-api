@@ -5,9 +5,11 @@
 package co.logike.roots.market.core.api.objects;
 
 import com.google.gson.Gson;
+
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Data transfer object for the Purchase_Order entity.
@@ -25,6 +27,8 @@ public class PurchaseOrderDTO implements Serializable {
     private String person;
     private String orderStatus;
     private String request;
+    
+    private List<OrderProductDTO> orderProducts;
 
     @Override
     public String toString() {

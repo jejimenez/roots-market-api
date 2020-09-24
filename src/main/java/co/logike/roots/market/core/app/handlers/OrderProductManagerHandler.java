@@ -112,6 +112,38 @@ public class OrderProductManagerHandler implements OrderProductManager {
     }
 
     @Override
+    public ResponseEvent<List<OrderProductDTO>> createList(String idPurchaseOrder, CommandEvent<List<OrderProductDTO>> requestEvent) {
+        log.info("method: create({})", requestEvent);
+        try {
+            if (requestEvent == null) {
+                return new ResponseEvent<List<OrderProductDTO>>().badRequest("event is null.");
+            }
+            if (idPurchaseOrder == null) {
+                return new ResponseEvent<List<OrderProductDTO>>().badRequest("Id PurchaseOrder is null.");
+            }
+            List<OrderProductDTO> orderProducts = requestEvent.getRequest();
+            List<OrderProduct> entityOrderProds = new ArrayList();
+            
+            for(OrderProductDTO orderProduct : orderProducts) {
+            	orderProduct.setPurchaseOrder(idPurchaseOrder);
+	            Product product = productRepository.findByIdent(Long.valueOf(orderProduct.getProduct()));
+	            PurchaseOrder purchaseOrder = purchaseOrderRepository.findByIdent(Long.valueOf(orderProduct.getPurchaseOrder()));
+	            ProductStatus productStatus = productStatusRepository.findByIdent(Long.valueOf(orderProduct.getProductStatus()));
+	            
+	            OrderProduct entity = OrderProductParser.setOrderProduct(orderProduct, purchaseOrder, product, productStatus);
+	            entityOrderProds.add(entity);
+            }
+            
+            repository.saveAll(entityOrderProds);
+            repository.flush();
+            return new ResponseEvent<List<OrderProductDTO>>().ok("Success", orderProducts);
+        } catch (Exception ex) {
+            log.error("method: create({}, {})", requestEvent, ex.getMessage(), ex);
+            return new ResponseEvent<List<OrderProductDTO>>().conflict(ex.getMessage());
+        }
+    }
+
+    @Override
     public ResponseEvent<OrderProductDTO> update(CommandEvent<OrderProductDTO> requestEvent, String id) {
         log.info("method: update ({},{})", requestEvent, id);
         try {
