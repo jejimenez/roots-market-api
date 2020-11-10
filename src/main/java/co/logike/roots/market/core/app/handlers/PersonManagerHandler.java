@@ -74,6 +74,24 @@ public class PersonManagerHandler implements PersonManager {
     }
 
     @Override
+    public ResponseEvent<PersonDTO> readByEmail(QueryPKEvent<String> requestEvent) {
+        log.info("method: read({})", requestEvent);
+        try {
+            if (requestEvent == null)
+                return new ResponseEvent<PersonDTO>().badRequest("event is null.");
+            if (requestEvent.getRequest() == null)
+                return new ResponseEvent<PersonDTO>().badRequest("event.request is null.");
+            final String email = requestEvent.getRequest();
+            Person person = repository.findByEmail(email);
+            PersonDTO personDTO = PersonParser.setPersonDTO(person);
+            return new ResponseEvent<PersonDTO>().ok("Success", personDTO);
+        } catch (Exception ex) {
+            log.error("method: read({}, {})", requestEvent, ex.getMessage(), ex);
+            return new ResponseEvent<PersonDTO>().conflict(ex.getMessage());
+        }
+    }
+
+    @Override
     public ResponseEvent<PersonDTO> create(CommandEvent<PersonDTO> requestEvent) {
         log.info("method: create({})", requestEvent);
         try {
@@ -87,6 +105,28 @@ public class PersonManagerHandler implements PersonManager {
             repository.flush();
             person.setId(entity.getId().toString());
             return new ResponseEvent<PersonDTO>().ok("Success", person);
+        } catch (Exception ex) {
+            log.error("method: create({}, {})", requestEvent, ex.getMessage(), ex);
+            return new ResponseEvent<PersonDTO>().conflict(ex.getMessage());
+        }
+    }
+
+    @Override
+    public ResponseEvent<PersonDTO> login(CommandEvent<PersonDTO> requestEvent) {
+        log.info("method: login({})", requestEvent);
+        try {
+            if (requestEvent == null) {
+                return new ResponseEvent<PersonDTO>().badRequest("event is null.");
+            }
+            //PersonDTO person = requestEvent.getRequest();
+            String email = requestEvent.getRequest().getEmail();
+            String pass = requestEvent.getRequest().getPassword();
+
+            Person person = repository.findByEmailAndPass(email, pass);
+
+            PersonDTO personDTO = PersonParser.setPersonDTO(person);
+
+            return new ResponseEvent<PersonDTO>().ok("Success", personDTO);
         } catch (Exception ex) {
             log.error("method: create({}, {})", requestEvent, ex.getMessage(), ex);
             return new ResponseEvent<PersonDTO>().conflict(ex.getMessage());

@@ -26,7 +26,11 @@ public interface PersonManager {
 
   ResponseEvent<PersonDTO> read(QueryPKEvent<String> requestEvent);
 
+  ResponseEvent<PersonDTO> readByEmail(QueryPKEvent<String> requestEvent);
+
   ResponseEvent<PersonDTO> create(CommandEvent<PersonDTO> requestEvent);
+
+  ResponseEvent<PersonDTO> login(CommandEvent<PersonDTO> requestEvent);
 
   ResponseEvent<PersonDTO> update(CommandEvent<PersonDTO> requestEvent, String id);
 

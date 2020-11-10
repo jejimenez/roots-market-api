@@ -52,6 +52,15 @@ public class Person implements Serializable {
     @Column(name = "address_")
     private String address;
 
+    @Column(name = "city_")
+    private String city;
+
+    @Column(name = "state_")
+    private String state;
+
+    @Column(name = "telephone_")
+    private String telephone;
+
     @Column(name = "map_latitude_")
     private BigDecimal mapLatitude;
 
@@ -87,6 +96,9 @@ public class Person implements Serializable {
                 Objects.equals(name, persons.name) &&
                 Objects.equals(password, persons.password) &&
                 Objects.equals(address, persons.address) &&
+                Objects.equals(address, persons.city) &&
+                Objects.equals(address, persons.state) &&
+                Objects.equals(address, persons.telephone) &&
                 Objects.equals(mapLatitude, persons.mapLatitude) &&
                 Objects.equals(mapLongitude, persons.mapLongitude) &&
                 Objects.equals(ethKey, persons.ethKey) &&
@@ -95,6 +107,6 @@ public class Person implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nickname, email, name, password, address, mapLatitude, mapLongitude, ethKey, ethAddress);
+        return Objects.hash(id, nickname, email, name, password, address, city, state, telephone, mapLatitude, mapLongitude, ethKey, ethAddress);
     }
 }

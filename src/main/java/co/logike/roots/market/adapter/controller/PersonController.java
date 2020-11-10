@@ -60,6 +60,30 @@ public class PersonController {
         log.debug("method: read({}) -> {}", id, responseEvent);
         return ResponseEntityUtility.buildHttpResponse(responseEvent);
     }
+    
+    @PostMapping("/login")
+    @ResponseBody
+    @Operation(summary = "Return person by email and password")
+    public ResponseEntity<ResponseEvent<PersonDTO>> login(@RequestBody PersonDTO domain) {
+        log.debug("method: create({})", domain);
+        final CommandEvent<PersonDTO> requestEvent = new CommandEvent<>();
+        requestEvent.setRequest(domain);
+        final ResponseEvent<PersonDTO> responseEvent = manager.login(requestEvent);
+        log.debug("method: create({}) -> {}", domain, responseEvent);
+        return ResponseEntityUtility.buildHttpResponse(responseEvent);
+    }
+
+    @GetMapping(value="", params="email")
+    @ResponseBody
+    @Operation(summary = "Return person by email")
+    public ResponseEntity<ResponseEvent<PersonDTO>> readByEmail(@RequestParam("email") String email) {
+        log.debug("method: read({})", email);
+        QueryPKEvent<String> readEvent = new QueryPKEvent<>();
+        readEvent.setRequest(email);
+        final ResponseEvent<PersonDTO> responseEvent = manager.readByEmail(readEvent);
+        log.debug("method: read({}) -> {}", email, responseEvent);
+        return ResponseEntityUtility.buildHttpResponse(responseEvent);
+    }
 
     @PostMapping
     @ResponseBody

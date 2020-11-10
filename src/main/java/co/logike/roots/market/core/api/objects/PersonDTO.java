@@ -27,6 +27,9 @@ public class PersonDTO implements Serializable {
     private String name;
     private String password;
     private String address;
+    private String city;
+    private String state;
+    private String telephone;
     private String mapLatitude;
     private String mapLongitude;
     private String ethKey;

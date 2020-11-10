@@ -26,8 +26,11 @@ public class PersonParser {
         domain.setName(entity.getName());
         domain.setPassword(entity.getPassword());
         domain.setAddress(entity.getAddress());
-        domain.setMapLatitude(entity.getMapLatitude().toString());
-        domain.setMapLongitude(entity.getMapLongitude().toString());
+        domain.setCity(entity.getCity());
+        domain.setState(entity.getState());
+        domain.setTelephone(entity.getTelephone());
+        domain.setMapLatitude(entity.getMapLatitude() == null ? "" : entity.getMapLatitude().toString());
+        domain.setMapLongitude(entity.getMapLongitude() == null ? "" : entity.getMapLongitude().toString());
         domain.setEthKey(entity.getEthKey());
         domain.setEthAddress(entity.getEthAddress());
         
@@ -49,8 +52,11 @@ public class PersonParser {
         personToUpdate.setName(domain.getName());
         personToUpdate.setPassword(domain.getPassword());
         personToUpdate.setAddress(domain.getAddress());
-        personToUpdate.setMapLatitude(new BigDecimal(domain.getMapLatitude()));
-        personToUpdate.setMapLongitude(new BigDecimal(domain.getMapLongitude()));
+        personToUpdate.setCity(domain.getCity());
+        personToUpdate.setState(domain.getState());
+        personToUpdate.setTelephone(domain.getTelephone());
+        personToUpdate.setMapLatitude(domain.getMapLatitude() == null || domain.getMapLatitude() == "" ? null : new BigDecimal(domain.getMapLatitude()));
+        personToUpdate.setMapLongitude(domain.getMapLongitude() == null || domain.getMapLatitude() == "" ? null : new BigDecimal(domain.getMapLongitude()));
         personToUpdate.setEthKey(domain.getEthKey());
         personToUpdate.setEthAddress(domain.getEthAddress());
         return personToUpdate;
