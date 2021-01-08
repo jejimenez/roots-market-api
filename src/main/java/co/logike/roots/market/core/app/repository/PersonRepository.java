@@ -26,6 +26,6 @@ public interface PersonRepository extends JpaRepository<Person, Long> {
     @Query(value = "SELECT * FROM PERSON WHERE EMAIL_ = :email", nativeQuery = true)
     Person findByEmail(@Param("email") String email);
     
-    @Query(value = "SELECT * FROM PERSON WHERE EMAIL_ = :email and PASSWORD_ = :pass ORDER BY ID_ DESC LIMIT 1", nativeQuery = true)
+    @Query(value = "SELECT * FROM PERSON WHERE EMAIL_ = :email and PASSWORD_ = crypt(:pass, PASSWORD_) ORDER BY ID_ DESC LIMIT 1", nativeQuery = true)
     Person findByEmailAndPass(@Param("email") String email, @Param("pass") String pass);
 }

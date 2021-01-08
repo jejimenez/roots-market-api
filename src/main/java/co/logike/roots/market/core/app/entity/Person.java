@@ -7,6 +7,9 @@ package co.logike.roots.market.core.app.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+
+import org.hibernate.annotations.ColumnTransformer;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collection;
@@ -45,6 +48,10 @@ public class Person implements Serializable {
     @Column(name = "email_")
     private String email;
 
+    @ColumnTransformer(
+            read = "crypt(password_,gen_salt('bf'))",
+            write = "crypt(?,gen_salt('bf'))"
+    )
     @Basic(optional = false)
     @Column(name = "password_")
     private String password;
