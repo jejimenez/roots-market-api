@@ -29,7 +29,7 @@ To run the project:
 ##### 2. Create the image from maven and save it to tar.gz:
 
     mvn dockerfile:build
-    docker save roots-market-api | gzip > roots-market-api.tar.gz
+    docker save roots/roots-market-api | gzip > roots-market-api.tar.gz
 
 ### Installing a Docker container
     

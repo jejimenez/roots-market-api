@@ -3,14 +3,14 @@ server:
 
 spring:
   profiles:
-    active: dev
+    active: test
 ---
 
 spring:
   profiles: dev
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/roots
+    url: jdbc:postgresql://192.168.0.6:5432/roots
     username: roots_role
     password: rootsPwd
     hikari:
@@ -64,8 +64,8 @@ spring:
   profiles: test
   datasource:
     driver-class-name: org.postgresql.Driver
-    jdbc-url: jdbc:postgresql://localhost:5432/roots
-    url: jdbc:postgresql://localhost:5432/roots
+    jdbc-url: jdbc:postgresql://192.168.0.5:5432/roots
+    url: jdbc:postgresql://192.168.0.5:5432/roots
     username: roots_role
     password: rootsPwd
     hikari:
@@ -119,8 +119,8 @@ spring:
   profiles: prd
   datasource:
     driver-class-name: org.postgresql.Driver
-    jdbc-url: jdbc:postgresql://localhost:5432/roots
-    url: jdbc:postgresql://localhost:5432/roots
+    jdbc-url: jdbc:postgresql://192.168.0.4:5432/roots
+    url: jdbc:postgresql://192.168.0.4:5432/roots
     username: roots_role
     password: rootsPwd
     hikari:

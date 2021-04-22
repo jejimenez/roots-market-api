@@ -35,7 +35,7 @@ public class PurchaseOrder implements Serializable {
     @Column(name = "request_")
     private String request;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "purchaseOrder")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "purchaseOrder", fetch = FetchType.EAGER)
     private Collection<OrderProduct> orderProductCollection;
 
     @JoinColumn(name = "order_status_", referencedColumnName = "id_")

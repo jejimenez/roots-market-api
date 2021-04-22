@@ -9,15 +9,9 @@ import co.logike.roots.market.core.api.events.QueryPKEvent;
 import co.logike.roots.market.core.api.events.ResponseEvent;
 import co.logike.roots.market.core.api.manager.OrderProductManager;
 import co.logike.roots.market.core.api.objects.OrderProductDTO;
-import co.logike.roots.market.core.app.entity.Product;
-import co.logike.roots.market.core.app.entity.ProductStatus;
-import co.logike.roots.market.core.app.entity.PurchaseOrder;
-import co.logike.roots.market.core.app.entity.OrderProduct;
+import co.logike.roots.market.core.app.entity.*;
 import co.logike.roots.market.core.app.parser.OrderProductParser;
-import co.logike.roots.market.core.app.repository.ProductRepository;
-import co.logike.roots.market.core.app.repository.ProductStatusRepository;
-import co.logike.roots.market.core.app.repository.PurchaseOrderRepository;
-import co.logike.roots.market.core.app.repository.OrderProductRepository;
+import co.logike.roots.market.core.app.repository.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,14 +34,16 @@ public class OrderProductManagerHandler implements OrderProductManager {
     private final ProductRepository productRepository;
     private final PurchaseOrderRepository purchaseOrderRepository;
     private final ProductStatusRepository productStatusRepository;
+    private final OrderReportRepository orderReportRepository;
 
     @Autowired
     public OrderProductManagerHandler(OrderProductRepository repository, ProductRepository productRepository,
-    		PurchaseOrderRepository purchaseOrderRepository, ProductStatusRepository productStatusRepository) {
+    		PurchaseOrderRepository purchaseOrderRepository, ProductStatusRepository productStatusRepository,OrderReportRepository orderReportRepository) {
         this.repository = repository;
         this.productRepository = productRepository;
         this.purchaseOrderRepository = purchaseOrderRepository;
         this.productStatusRepository = productStatusRepository;
+        this.orderReportRepository = orderReportRepository;
     }
 
     @Override
@@ -185,4 +181,22 @@ public class OrderProductManagerHandler implements OrderProductManager {
         }
     }
 
+    @Override
+    public ResponseEvent<List<OrderReport>> getOrders(String sDate,String eDate) {
+        log.info("method: read({})", sDate+eDate);
+        try {
+//            if (requestEvent == null)
+//                return new ResponseEvent<List<OrderReport>>().badRequest("event is null.");
+//            if (requestEvent.getRequest() == null)
+//                return new ResponseEvent<List<OrderReport>>().badRequest("event.request is null.");
+            //final String id = requestEvent.getRequest();
+            //Long idL = Long.valueOf(id);
+            List<OrderReport> orderProductDTO = orderReportRepository.findOrders(sDate,eDate);
+            //OrderProductDTO orderProductDTO = OrderProductParser.setOrderProductDTO(null);
+            return new ResponseEvent<List<OrderReport>>().ok("Success", orderProductDTO);
+        } catch (Exception ex) {
+            log.error("method: read({}, {})", sDate, ex.getMessage(), ex);
+            return new ResponseEvent<List<OrderReport>>().conflict(ex.getMessage());
+        }
+    }
 }
