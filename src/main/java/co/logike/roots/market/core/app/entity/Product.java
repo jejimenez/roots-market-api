@@ -51,6 +51,9 @@ public class Product implements Serializable {
     @Column(name = "labels_")
     private String labels;
 
+    @Column(name = "image_")
+    private String image;
+
     @JoinColumn(name = "category_", referencedColumnName = "id_")
     @ManyToOne(optional = false)
     private Category category;
@@ -79,7 +82,8 @@ public class Product implements Serializable {
                 Objects.equals(description, product.description) &&
                 Objects.equals(quantity, product.quantity) &&
                 Objects.equals(cost, product.cost) &&
-                Objects.equals(labels, product.labels);
+                Objects.equals(labels, product.labels) &&
+                Objects.equals(image, product.image);
     }
 
     @Override

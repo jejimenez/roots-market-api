@@ -34,6 +34,12 @@ public class Category implements Serializable {
     @Basic(optional = false)
     @Column(name = "name_")
     private String name;
+    
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "order_num_")
+    private Long order_num;
+
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
     private Collection<Product> productCollection;
@@ -44,11 +50,12 @@ public class Category implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         Category category = (Category) o;
         return Objects.equals(id, category.id) &&
-                Objects.equals(name, category.name);
+                Objects.equals(name, category.name) &&
+                Objects.equals(order_num, category.order_num);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name);
+        return Objects.hash(id, name, order_num);
     }
 }

@@ -29,6 +29,7 @@ public class ProductParser {
         domain.setCategory(entity.getCategory().getName());
         domain.setCost(entity.getCost() == null ? "" : entity.getCost().toString());
         domain.setLabels(entity.getLabels());
+        domain.setImage(entity.getImage());
         domain.setProducer(entity.getProducer().getOrganization().getName());
         domain.setQuantity(entity.getQuantity() == null ? "" : entity.getQuantity().toString());
         domain.setUnit(entity.getUnit().getName());
@@ -50,6 +51,7 @@ public class ProductParser {
         productToUpdate.setCategory(category);
         productToUpdate.setCost(new BigDecimal(domain.getCost()) );
         productToUpdate.setLabels(domain.getLabels());
+        productToUpdate.setImage(domain.getImage());
         productToUpdate.setUnit(unit);
         productToUpdate.setProducer(personRoleOrganization);
         productToUpdate.setQuantity(new BigDecimal(domain.getQuantity()));

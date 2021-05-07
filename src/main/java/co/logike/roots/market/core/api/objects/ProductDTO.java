@@ -30,6 +30,7 @@ public class ProductDTO implements Serializable {
     private String unit;
     private String cost;
     private String labels;
+    private String image;
 
     @Override
     public String toString() {

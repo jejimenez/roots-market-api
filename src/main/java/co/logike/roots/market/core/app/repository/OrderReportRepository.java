@@ -24,7 +24,7 @@ import java.util.List;
 @Repository
 public interface OrderReportRepository extends JpaRepository<OrderReport, String> {
 
-    @Query(value = "select op.purchase_order_ as orden_de_compra, p.name_ as producto , op.units_ as cantidad, p.producer_cost_ as costo , o.name_ as productor from order_product op inner join purchase_order po on op.purchase_order_ = po.id_ inner join product p on op.product_ = p.id_ inner join person_role_organization pro on p.producer_ = pro.id_ inner join organization o on pro.organization_ = o.id_ where po.creation_time between cast(:sDate AS timestamp) AND cast(:eDate AS timestamp) order by o.name_, p.name_;", nativeQuery = true)
+    @Query(value = "select cast(op.id_ as text)||cast(op.purchase_order_ as text) as orden_de_compra, p.name_ as producto , op.units_ as cantidad, p.producer_cost_ as costo , o.name_ as productor from order_product op inner join purchase_order po on op.purchase_order_ = po.id_ inner join product p on op.product_ = p.id_ inner join person_role_organization pro on p.producer_ = pro.id_ inner join organization o on pro.organization_ = o.id_ where po.creation_time between cast(:sDate AS timestamp) AND cast(:eDate AS timestamp) order by o.name_, p.name_;", nativeQuery = true)
     List<OrderReport> findOrders(@Param("sDate") String sDate, @Param("eDate") String eDate);
 
 }
