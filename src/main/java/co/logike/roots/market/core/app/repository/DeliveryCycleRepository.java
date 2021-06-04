@@ -23,4 +23,6 @@ public interface DeliveryCycleRepository extends JpaRepository<DeliveryCycle, Lo
     @Query(value = "SELECT * FROM DELIVERY_CYCLE WHERE ID_ = :id", nativeQuery = true)
     DeliveryCycle findByIdent(@Param("id") Long id);
     
+    public DeliveryCycle findTopByOrderByIdDesc();
+    
 }

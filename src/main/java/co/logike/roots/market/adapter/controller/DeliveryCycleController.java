@@ -41,7 +41,7 @@ public class DeliveryCycleController {
 
     @GetMapping
     @ResponseBody
-    @Operation(summary = "Return all products")
+    @Operation(summary = "Return all delivery cycles")
     public ResponseEntity<ResponseEvent<List<DeliveryCycleDTO>>> readAll() {
         log.debug("method: readAll()");
         final ResponseEvent<List<DeliveryCycleDTO>> responseEvent = manager.readAll();
@@ -51,13 +51,23 @@ public class DeliveryCycleController {
 
     @GetMapping("/{id}")
     @ResponseBody
-    @Operation(summary = "Return product by id")
+    @Operation(summary = "Return delivery Cycle by id")
     public ResponseEntity<ResponseEvent<DeliveryCycleDTO>> read(@PathVariable("id") String id) {
         log.debug("method: read({})", id);
         QueryPKEvent<String> readEvent = new QueryPKEvent<>();
         readEvent.setRequest(id);
         final ResponseEvent<DeliveryCycleDTO> responseEvent = manager.read(readEvent);
         log.debug("method: read({}) -> {}", id, responseEvent);
+        return ResponseEntityUtility.buildHttpResponse(responseEvent);
+    }
+
+    @GetMapping("/last")
+    @ResponseBody
+    @Operation(summary = "Return last delivery cycle")
+    public ResponseEntity<ResponseEvent<DeliveryCycleDTO>> readLast() {
+        log.debug("method: readLast({})");
+        final ResponseEvent<DeliveryCycleDTO> responseEvent = manager.readLast();
+        log.debug("method: read({}) -> {}", responseEvent);
         return ResponseEntityUtility.buildHttpResponse(responseEvent);
     }
 

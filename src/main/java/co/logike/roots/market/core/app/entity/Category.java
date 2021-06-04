@@ -38,7 +38,7 @@ public class Category implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "order_num_")
-    private Long order_num;
+    private Long orderNum;
 
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
@@ -51,11 +51,11 @@ public class Category implements Serializable {
         Category category = (Category) o;
         return Objects.equals(id, category.id) &&
                 Objects.equals(name, category.name) &&
-                Objects.equals(order_num, category.order_num);
+                Objects.equals(orderNum, category.orderNum);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, order_num);
+        return Objects.hash(id, name, orderNum);
     }
 }

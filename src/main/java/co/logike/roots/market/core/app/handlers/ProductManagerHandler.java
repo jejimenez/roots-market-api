@@ -20,6 +20,7 @@ import co.logike.roots.market.core.app.repository.ProductRepository;
 import co.logike.roots.market.core.app.repository.UnitRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -66,6 +67,25 @@ public class ProductManagerHandler implements ProductManager {
             return new ResponseEvent<List<ProductDTO>>().conflict(ex.getMessage());
         }
     }
+
+
+    @Override
+    public ResponseEvent<List<ProductDTO>> readAllOrderBy(String orderBy) {
+        log.debug("method: readAll()");
+        try {
+            List<ProductDTO> finalList = new ArrayList<>();
+            List<Product> productList = repository.findAll(Sort.by(Sort.Direction.ASC, orderBy));
+            for (Product product : productList) {
+                ProductDTO productDTO = ProductParser.setProductDTO(product);
+                finalList.add(productDTO);
+            }
+            return new ResponseEvent<List<ProductDTO>>().ok("Success", finalList);
+        } catch (Exception ex) {
+            log.error("method: read({}, {})", ex.getMessage(), ex);
+            return new ResponseEvent<List<ProductDTO>>().conflict(ex.getMessage());
+        }
+    }
+
 
 
     @Override

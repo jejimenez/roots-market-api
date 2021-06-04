@@ -39,13 +39,23 @@ public class ProductController {
         this.manager = manager;
     }
 
-    @GetMapping
+    @GetMapping()
     @ResponseBody
     @Operation(summary = "Return all products")
     public ResponseEntity<ResponseEvent<List<ProductDTO>>> readAll() {
         log.debug("method: readAll()");
         final ResponseEvent<List<ProductDTO>> responseEvent = manager.readAll();
-        log.debug("method: readAll() -> {}", responseEvent.getMessage());
+        log.debug("method: readAll(orderby) -> {}", responseEvent.getMessage());
+        return ResponseEntityUtility.buildHttpResponse(responseEvent);
+    }
+
+    @GetMapping(params="orderby")
+    @ResponseBody
+    @Operation(summary = "Return all products with order")
+    public ResponseEntity<ResponseEvent<List<ProductDTO>>> readAllOrderBy(@RequestParam("orderby") String orderBy) {
+        log.debug("method: readAll()");
+        final ResponseEvent<List<ProductDTO>> responseEvent = manager.readAllOrderBy(orderBy);
+        log.debug("method: readAll(orderby) -> {}", responseEvent.getMessage());
         return ResponseEntityUtility.buildHttpResponse(responseEvent);
     }
 

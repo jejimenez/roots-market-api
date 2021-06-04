@@ -24,7 +24,9 @@ import java.util.List;
 public interface ProductManager {
 
   ResponseEvent<List<ProductDTO>> readAll();
-
+  
+  ResponseEvent<List<ProductDTO>> readAllOrderBy(String orderBy);
+  
   ResponseEvent<ProductDTO> read(QueryPKEvent<String> requestEvent);
 
   ResponseEvent<List<ProductDTO>> readByPurchaseOrder(QueryPKEvent<String> requestEvent);

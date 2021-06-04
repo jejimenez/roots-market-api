@@ -25,4 +25,6 @@ public interface DeliveryCycleManager {
 
   ResponseEvent<DeliveryCycleDTO> read(QueryPKEvent<String> requestEvent);
   
+  ResponseEvent<DeliveryCycleDTO> readLast();
+  
 }

@@ -42,10 +42,10 @@ public class DeliveryCycleHandler implements DeliveryCycleManager {
         log.debug("method: readAll()");
         try {
             List<DeliveryCycleDTO> finalList = new ArrayList<>();
-            List<DeliveryCycle> personList = repository.findAll();
-            for (DeliveryCycle person : personList) {
-                DeliveryCycleDTO personDTO = DeliveryCycleParser.setDeliveryCycleDTO(person);
-                finalList.add(personDTO);
+            List<DeliveryCycle> deliveryCycleList = repository.findAll();
+            for (DeliveryCycle deliveryCycle : deliveryCycleList) {
+                DeliveryCycleDTO deliveryCycleDTO = DeliveryCycleParser.setDeliveryCycleDTO(deliveryCycle);
+                finalList.add(deliveryCycleDTO);
             }
             return new ResponseEvent<List<DeliveryCycleDTO>>().ok("Success", finalList);
         } catch (Exception ex) {
@@ -64,11 +64,24 @@ public class DeliveryCycleHandler implements DeliveryCycleManager {
                 return new ResponseEvent<DeliveryCycleDTO>().badRequest("event.request is null.");
             final String id = requestEvent.getRequest();
             Long idL = Long.valueOf(id);
-            DeliveryCycle person = repository.findByIdent(idL);
-            DeliveryCycleDTO personDTO = DeliveryCycleParser.setDeliveryCycleDTO(person);
-            return new ResponseEvent<DeliveryCycleDTO>().ok("Success", personDTO);
+            DeliveryCycle deliveryCycle = repository.findByIdent(idL);
+            DeliveryCycleDTO deliveryCycleDTO = DeliveryCycleParser.setDeliveryCycleDTO(deliveryCycle);
+            return new ResponseEvent<DeliveryCycleDTO>().ok("Success", deliveryCycleDTO);
         } catch (Exception ex) {
             log.error("method: read({}, {})", requestEvent, ex.getMessage(), ex);
+            return new ResponseEvent<DeliveryCycleDTO>().conflict(ex.getMessage());
+        }
+    }
+    
+    @Override
+    public ResponseEvent<DeliveryCycleDTO> readLast() {
+        log.debug("method: readLast()");
+        try {
+            DeliveryCycle deliveryCycle = repository.findTopByOrderByIdDesc();
+            DeliveryCycleDTO deliveryCycleDTO = DeliveryCycleParser.setDeliveryCycleDTO(deliveryCycle);
+            return new ResponseEvent<DeliveryCycleDTO>().ok("Success", deliveryCycleDTO);
+        } catch (Exception ex) {
+            log.error("method: read({}, {})", ex.getMessage(), ex);
             return new ResponseEvent<DeliveryCycleDTO>().conflict(ex.getMessage());
         }
     }
