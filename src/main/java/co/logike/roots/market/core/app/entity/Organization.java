@@ -43,6 +43,9 @@ public class Organization implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "organization")
     private Collection<PersonRoleOrganization> personRoleOrganizationCollection;
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "organization")
+    private Collection<DeliveryLocation> deliveryLocationCollection;
 
     @Override
     public boolean equals(Object o) {

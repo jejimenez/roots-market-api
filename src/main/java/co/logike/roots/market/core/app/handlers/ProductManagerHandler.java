@@ -74,7 +74,7 @@ public class ProductManagerHandler implements ProductManager {
         log.debug("method: readAll()");
         try {
             List<ProductDTO> finalList = new ArrayList<>();
-            List<Product> productList = repository.findAll(Sort.by(Sort.Direction.ASC, orderBy));
+            List<Product> productList = repository.findAll(Sort.by(Sort.Direction.ASC, orderBy).and(Sort.by("name")));
             for (Product product : productList) {
                 ProductDTO productDTO = ProductParser.setProductDTO(product);
                 finalList.add(productDTO);

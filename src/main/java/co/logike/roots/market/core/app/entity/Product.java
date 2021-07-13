@@ -72,6 +72,9 @@ public class Product implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
     private Collection<Review> reviewCollection;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
+    private Collection<ProductDeliveryLocation> productDeliveryLocationCollection;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
