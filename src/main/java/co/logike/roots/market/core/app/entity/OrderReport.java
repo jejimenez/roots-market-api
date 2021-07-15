@@ -11,22 +11,35 @@ import java.math.BigInteger;
 
 @Entity
 @Data
-public class OrderReport  implements Serializable {
+public class OrderReport implements Serializable {
 
     @Id
-    @Column(name = "orden_de_compra")
+    @Column(name = "id")
     private String id;
 
-    @Column(name = "producto")
+    @Column(name = "purchase_order")
+    private String purchaseOrder;
+
+    @Column(name = "client")
+    private String client;
+
+    @Column(name = "product")
     private String product;
 
-    @Column(name = "cantidad")
+    @Column(name = "units")
     private BigDecimal units;
 
-    @Column(name = "costo")
+    @Column(name = "price")
+    private BigDecimal price;
+
+    @Column(name = "cost")
     private BigDecimal cost;
 
-    @Column(name = "productor")
-    private String organization;
+    @Column(name = "producer")
+    private String producer;
+
+    @Column(name = "creation_time")
+    private String creationTime;
+    
 
 }

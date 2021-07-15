@@ -24,7 +24,21 @@ import java.util.List;
 @Repository
 public interface OrderReportRepository extends JpaRepository<OrderReport, String> {
 
-    @Query(value = "select cast(op.id_ as text)||cast(op.purchase_order_ as text) as orden_de_compra, p.name_ as producto , op.units_ as cantidad, p.producer_cost_ as costo , o.name_ as productor from order_product op inner join purchase_order po on op.purchase_order_ = po.id_ inner join product p on op.product_ = p.id_ inner join person_role_organization pro on p.producer_ = pro.id_ inner join organization o on pro.organization_ = o.id_ where po.creation_time between cast(:sDate AS timestamp) AND cast(:eDate AS timestamp) order by o.name_, p.name_;", nativeQuery = true)
+    @Query(value = "select row_number() over(order by cast(op.purchase_order_ as text), pr2.name_) as id, \n" + 
+    		"cast(op.purchase_order_ as text) purchase_order,\n" + 
+    		"pr2.name_ as client,\n" + 
+    		"p.name_ as product , op.units_ as units, p.producer_cost_ as cost , \n" + 
+    		"p.cost_ as price, \n" + 
+    		"pr1.name_ as producer, \n" + 
+    		"date(po.creation_time_) creation_time \n" + 
+    		"from order_product op \n" + 
+    		"inner join purchase_order po on op.purchase_order_ = po.id_ \n" + 
+    		"inner join product p on op.product_ = p.id_ \n" + 
+    		"inner join person_role_organization pro on p.producer_ = pro.id_ \n" + 
+    		"inner join person pr1 on pro.person_ = pr1.id_ \n" + 
+    		"inner join person pr2 on po.person_ = pr2.id_ \n" +
+    		"where po.creation_time_ between cast(:sDate AS timestamp) AND cast(:eDate AS timestamp) " +
+    		"order by purchase_order, client;", nativeQuery = true)
     List<OrderReport> findOrders(@Param("sDate") String sDate, @Param("eDate") String eDate);
 
 }

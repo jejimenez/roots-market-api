@@ -40,11 +40,15 @@ public class UserExcelExporter {
         font.setFontHeight(16);
         style.setFont(font);
 
-        createCell(row, 0, "orden_de_compra", style);
-        createCell(row, 1, "producto", style);
-        createCell(row, 2, "cantidad", style);
-        createCell(row, 3, "costo", style);
-        createCell(row, 4, "productor", style);
+        createCell(row, 0, "id", style);
+        createCell(row, 1, "orden_de_compra", style);
+        createCell(row, 2, "cliente", style);
+        createCell(row, 3, "producto", style);
+        createCell(row, 4, "cantidad", style);
+        createCell(row, 5, "costo", style);
+        createCell(row, 6, "precio", style);
+        createCell(row, 7, "productor", style);
+        createCell(row, 8, "fecha", style);
 
     }
 
@@ -76,11 +80,15 @@ public class UserExcelExporter {
             Row row = sheet.createRow(rowCount++);
             int columnCount = 0;
 
-            createCell(row, columnCount++, user.getId(), style);
+            createCell(row, columnCount++, user.getId().toString(), style);
+            createCell(row, columnCount++, user.getPurchaseOrder().toString(), style);
+            createCell(row, columnCount++, user.getClient(), style);
             createCell(row, columnCount++, user.getProduct(), style);
-            createCell(row, columnCount++, user.getUnits(), style);
+            createCell(row, columnCount++, user.getUnits().toString(), style);
             createCell(row, columnCount++, user.getCost().toString(), style);
-            createCell(row, columnCount++, user.getOrganization(), style);
+            createCell(row, columnCount++, user.getPrice().toString(), style);
+            createCell(row, columnCount++, user.getProducer(), style);
+            createCell(row, columnCount++, user.getCreationTime(), style);
             rowfinal = row;
         }
         String strFormula= "SUM(A1:A10)";
