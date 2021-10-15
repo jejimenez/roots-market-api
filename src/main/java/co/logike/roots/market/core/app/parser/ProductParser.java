@@ -30,7 +30,7 @@ public class ProductParser {
         domain.setCost(entity.getCost() == null ? "" : entity.getCost().toString());
         domain.setLabels(entity.getLabels());
         domain.setImage(entity.getImage());
-        domain.setProducer(entity.getProducer().getOrganization().getName());
+        domain.setProducer(entity.getProducer().getPerson().getName());
         domain.setQuantity(entity.getQuantity() == null ? "" : entity.getQuantity().toString());
         domain.setUnit(entity.getUnit().getName());
         return domain;

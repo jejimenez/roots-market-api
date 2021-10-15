@@ -17,7 +17,7 @@ import java.io.Serializable;
  * @since 1.0
  */
 @Data
-public class OrderProductDTO implements Serializable {
+public class OrderProductMailedDTO implements Serializable {
 
 	private static final long serialVersionUID = -1914772171089509055L;
 	
@@ -27,6 +27,9 @@ public class OrderProductDTO implements Serializable {
     private String productStatus;
     private String units;
     private String description;
+
+    private String quantity;
+    private String unit;
     
 
     @Override

@@ -26,7 +26,7 @@ public interface OrderReportRepository extends JpaRepository<OrderReport, String
 
     @Query(value = "select row_number() over(order by cast(op.purchase_order_ as text), pr2.name_) as id, \n" + 
     		"cast(op.purchase_order_ as text) purchase_order,\n" + 
-    		"pr2.name_ as client,\n" + 
+    		"pr2.name_ as client, pr2.address_ as address,\n" + 
     		"p.name_ as product , op.units_ as units, p.producer_cost_ as cost , \n" + 
     		"p.cost_ as price, \n" + 
     		"pr1.name_ as producer, \n" + 

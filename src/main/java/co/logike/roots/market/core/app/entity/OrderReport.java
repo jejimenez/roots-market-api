@@ -23,6 +23,9 @@ public class OrderReport implements Serializable {
     @Column(name = "client")
     private String client;
 
+    @Column(name = "address")
+    private String address;
+
     @Column(name = "product")
     private String product;
 

@@ -8,6 +8,7 @@ import co.logike.roots.market.core.api.events.CommandEvent;
 import co.logike.roots.market.core.api.events.QueryPKEvent;
 import co.logike.roots.market.core.api.events.ResponseEvent;
 import co.logike.roots.market.core.api.objects.OrderProductDTO;
+import co.logike.roots.market.core.api.objects.OrderProductMailedDTO;
 import co.logike.roots.market.core.app.entity.OrderReport;
 
 
@@ -27,8 +28,10 @@ public interface OrderProductManager {
   ResponseEvent<OrderProductDTO> read(QueryPKEvent<String> requestEvent);
 
   ResponseEvent<OrderProductDTO> create(CommandEvent<OrderProductDTO> requestEvent);
-  
+
   ResponseEvent<List<OrderProductDTO>> createList(String idPurchaseOrder, CommandEvent<List<OrderProductDTO>> requestEvent);
+
+  ResponseEvent<List<OrderProductMailedDTO>> createListMailed(String idPurchaseOrder, CommandEvent<List<OrderProductDTO>> requestEvent);
 
   ResponseEvent<OrderProductDTO> update(CommandEvent<OrderProductDTO> requestEvent, String id);
 

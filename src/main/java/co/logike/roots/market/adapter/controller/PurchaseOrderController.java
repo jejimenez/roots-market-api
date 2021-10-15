@@ -8,12 +8,15 @@ import co.logike.roots.market.adapter.parser.ResponseEntityUtility;
 import co.logike.roots.market.core.api.events.CommandEvent;
 import co.logike.roots.market.core.api.events.QueryPKEvent;
 import co.logike.roots.market.core.api.events.ResponseEvent;
+import co.logike.roots.market.core.api.manager.EmailNotificationManager;
 import co.logike.roots.market.core.api.manager.OrderProductManager;
 import co.logike.roots.market.core.api.manager.ProductManager;
 import co.logike.roots.market.core.api.manager.PurchaseOrderManager;
 import co.logike.roots.market.core.api.objects.OrderProductDTO;
+import co.logike.roots.market.core.api.objects.OrderProductMailedDTO;
 import co.logike.roots.market.core.api.objects.ProductDTO;
 import co.logike.roots.market.core.api.objects.PurchaseOrderDTO;
+import co.logike.roots.market.core.app.components.EmailNotificationSender;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -39,12 +42,14 @@ public class PurchaseOrderController {
     private final PurchaseOrderManager manager;
     private final ProductManager managerProduct;
     private final OrderProductManager managerOrderProduct;
+    private final EmailNotificationManager managerEmailNotification;
 
     @Autowired
-    public PurchaseOrderController(PurchaseOrderManager manager, ProductManager managerProduct, OrderProductManager managerOrderProduct) {
+    public PurchaseOrderController(PurchaseOrderManager manager, ProductManager managerProduct, OrderProductManager managerOrderProduct, EmailNotificationManager managerEmailNotification) {
         this.manager = manager;
         this.managerProduct = managerProduct;
         this.managerOrderProduct = managerOrderProduct;
+        this.managerEmailNotification = managerEmailNotification;
     }
 
     @GetMapping
@@ -97,8 +102,10 @@ public class PurchaseOrderController {
 	        if(domain.getOrderProducts() != null && domain.getOrderProducts().size() > 0 ) {
 		        final CommandEvent<List<OrderProductDTO>> requestEventProducts = new CommandEvent<>();
 		        requestEventProducts.setRequest(domain.getOrderProducts());
-		        final ResponseEvent<List<OrderProductDTO>> responseEventProducts = managerOrderProduct.createList(responseEvent.getData().getId(), requestEventProducts);
+		        final ResponseEvent<List<OrderProductMailedDTO>> responseEventProducts = managerOrderProduct.createListMailed(responseEvent.getData().getId(), requestEventProducts);
 		        log.debug("method: create({}) -> {}", domain, responseEventProducts);
+		        //Send Notification Email
+		        managerEmailNotification.sendNotificationNewPurchase(responseEvent, responseEventProducts);
 	        }
         }
         //

@@ -20,9 +20,9 @@ public class PurchaseOrderParser {
 
     public static PurchaseOrderDTO setPurchaseOrderDTO(PurchaseOrder entity) {
         PurchaseOrderDTO domain = new PurchaseOrderDTO();
-        domain.setId(entity.getId().toString());
-        domain.setPerson(entity.getPerson().getName());
-        domain.setOrderStatus(entity.getOrderStatus().getName());
+        domain.setId(entity.getId() == null ? "" : entity.getId().toString());
+        domain.setPerson(entity.getPerson() == null ? "" : entity.getPerson().getName());
+        domain.setOrderStatus(entity.getOrderStatus() == null ? "" : entity.getOrderStatus().getName());
         domain.setRequest(entity.getRequest());
         return domain;
     }

@@ -117,14 +117,16 @@ public class PurchaseOrderManagerHandler implements PurchaseOrderManager {
                 return new ResponseEvent<PurchaseOrderDTO>().badRequest("event is null.");
             }
             PurchaseOrderDTO purchaseOrder = requestEvent.getRequest();
+            PurchaseOrderDTO finalPurchaseOrder;
             Person person = personRepository.findByIdent(Long.valueOf(purchaseOrder.getPerson()));
             OrderStatus orderStatus = orderStatusRepository.findByIdent(Long.valueOf(purchaseOrder.getOrderStatus()));
 
             PurchaseOrder entity = PurchaseOrderParser.setPurchaseOrder(purchaseOrder, person, orderStatus);
             repository.save(entity);
             repository.flush();
-            purchaseOrder.setId(entity.getId().toString());
-            return new ResponseEvent<PurchaseOrderDTO>().ok("Success", purchaseOrder);
+            //purchaseOrder.setId(entity.getId().toString());
+            finalPurchaseOrder = PurchaseOrderParser.setPurchaseOrderDTO(entity);
+            return new ResponseEvent<PurchaseOrderDTO>().ok("Success", finalPurchaseOrder);
         } catch (Exception ex) {
             log.error("method: create({}, {})", requestEvent, ex.getMessage(), ex);
             return new ResponseEvent<PurchaseOrderDTO>().conflict(ex.getMessage());

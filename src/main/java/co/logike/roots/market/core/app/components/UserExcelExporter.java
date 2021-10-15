@@ -43,12 +43,13 @@ public class UserExcelExporter {
         createCell(row, 0, "id", style);
         createCell(row, 1, "orden_de_compra", style);
         createCell(row, 2, "cliente", style);
-        createCell(row, 3, "producto", style);
-        createCell(row, 4, "cantidad", style);
-        createCell(row, 5, "costo", style);
-        createCell(row, 6, "precio", style);
-        createCell(row, 7, "productor", style);
-        createCell(row, 8, "fecha", style);
+        createCell(row, 3, "address", style);
+        createCell(row, 4, "producto", style);
+        createCell(row, 5, "cantidad", style);
+        createCell(row, 6, "costo", style);
+        createCell(row, 7, "precio", style);
+        createCell(row, 8, "productor", style);
+        createCell(row, 9, "fecha", style);
 
     }
 
@@ -83,6 +84,7 @@ public class UserExcelExporter {
             createCell(row, columnCount++, user.getId().toString(), style);
             createCell(row, columnCount++, user.getPurchaseOrder().toString(), style);
             createCell(row, columnCount++, user.getClient(), style);
+            createCell(row, columnCount++, user.getAddress(), style);
             createCell(row, columnCount++, user.getProduct(), style);
             createCell(row, columnCount++, user.getUnits().toString(), style);
             createCell(row, columnCount++, user.getCost().toString(), style);

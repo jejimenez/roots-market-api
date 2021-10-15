@@ -9,8 +9,11 @@ import co.logike.roots.market.core.api.events.QueryPKEvent;
 import co.logike.roots.market.core.api.events.ResponseEvent;
 import co.logike.roots.market.core.api.manager.OrderProductManager;
 import co.logike.roots.market.core.api.objects.OrderProductDTO;
+import co.logike.roots.market.core.api.objects.OrderProductMailedDTO;
+import co.logike.roots.market.core.api.objects.ProductDTO;
 import co.logike.roots.market.core.app.entity.*;
 import co.logike.roots.market.core.app.parser.OrderProductParser;
+import co.logike.roots.market.core.app.parser.ProductParser;
 import co.logike.roots.market.core.app.repository.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,7 +98,6 @@ public class OrderProductManagerHandler implements OrderProductManager {
             PurchaseOrder purchaseOrder = purchaseOrderRepository.findByIdent(Long.valueOf(orderProduct.getPurchaseOrder()));
             ProductStatus productStatus = productStatusRepository.findByIdent(Long.valueOf(orderProduct.getProductStatus()));
              
-            
             OrderProduct entity = OrderProductParser.setOrderProduct(orderProduct, purchaseOrder, product, productStatus);
             repository.save(entity);
             repository.flush();
@@ -118,6 +120,7 @@ public class OrderProductManagerHandler implements OrderProductManager {
                 return new ResponseEvent<List<OrderProductDTO>>().badRequest("Id PurchaseOrder is null.");
             }
             List<OrderProductDTO> orderProducts = requestEvent.getRequest();
+            List<OrderProductDTO> finalOrderProducts = new  ArrayList<OrderProductDTO>();
             List<OrderProduct> entityOrderProds = new ArrayList();
             
             for(OrderProductDTO orderProduct : orderProducts) {
@@ -127,15 +130,58 @@ public class OrderProductManagerHandler implements OrderProductManager {
 	            ProductStatus productStatus = productStatusRepository.findByIdent(Long.valueOf(orderProduct.getProductStatus()));
 	            
 	            OrderProduct entity = OrderProductParser.setOrderProduct(orderProduct, purchaseOrder, product, productStatus);
+	            OrderProductDTO orderProductDTO = OrderProductParser.setOrderProductDTO(entity);
+	            //OrderProductMailedDTO orderProdMailedDTO = OrderProductParser.setOrderProductDTO(entity, product);
+	            finalOrderProducts.add(orderProductDTO);
 	            entityOrderProds.add(entity);
+	            //ProductDTO productDTO = ProductParser.setProductDTO(product);
             }
             
             repository.saveAll(entityOrderProds);
             repository.flush();
-            return new ResponseEvent<List<OrderProductDTO>>().ok("Success", orderProducts);
+            return new ResponseEvent<List<OrderProductDTO>>().ok("Success", finalOrderProducts);
         } catch (Exception ex) {
             log.error("method: create({}, {})", requestEvent, ex.getMessage(), ex);
             return new ResponseEvent<List<OrderProductDTO>>().conflict(ex.getMessage());
+        }
+    }
+    
+
+
+    @Override
+    public ResponseEvent<List<OrderProductMailedDTO>> createListMailed(String idPurchaseOrder, CommandEvent<List<OrderProductDTO>> requestEvent) {
+        log.info("method: create({})", requestEvent);
+        try {
+            if (requestEvent == null) {
+                return new ResponseEvent<List<OrderProductMailedDTO>>().badRequest("event is null.");
+            }
+            if (idPurchaseOrder == null) {
+                return new ResponseEvent<List<OrderProductMailedDTO>>().badRequest("Id PurchaseOrder is null.");
+            }
+            List<OrderProductDTO> orderProducts = requestEvent.getRequest();
+            List<OrderProductMailedDTO> finalOrderProducts = new  ArrayList<OrderProductMailedDTO>();
+            List<OrderProduct> entityOrderProds = new ArrayList();
+            
+            for(OrderProductDTO orderProduct : orderProducts) {
+            	orderProduct.setPurchaseOrder(idPurchaseOrder);
+	            Product product = productRepository.findByIdent(Long.valueOf(orderProduct.getProduct()));
+	            PurchaseOrder purchaseOrder = purchaseOrderRepository.findByIdent(Long.valueOf(orderProduct.getPurchaseOrder()));
+	            ProductStatus productStatus = productStatusRepository.findByIdent(Long.valueOf(orderProduct.getProductStatus()));
+	            
+	            OrderProduct entity = OrderProductParser.setOrderProduct(orderProduct, purchaseOrder, product, productStatus);
+	            //OrderProductDTO orderProductDTO = OrderProductParser.setOrderProductDTO(entity);
+	            OrderProductMailedDTO orderProdMailedDTO = OrderProductParser.setOrderProductDTO(entity, product);
+	            finalOrderProducts.add(orderProdMailedDTO);
+	            entityOrderProds.add(entity);
+	            //ProductDTO productDTO = ProductParser.setProductDTO(product);
+            }
+            
+            repository.saveAll(entityOrderProds);
+            repository.flush();
+            return new ResponseEvent<List<OrderProductMailedDTO>>().ok("Success", finalOrderProducts);
+        } catch (Exception ex) {
+            log.error("method: create({}, {})", requestEvent, ex.getMessage(), ex);
+            return new ResponseEvent<List<OrderProductMailedDTO>>().conflict(ex.getMessage());
         }
     }
 
