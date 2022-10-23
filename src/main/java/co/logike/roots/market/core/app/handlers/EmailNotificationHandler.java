@@ -58,6 +58,29 @@ public class EmailNotificationHandler implements EmailNotificationManager{
         this.emailSender = emailSender;
     }
 
+
+    @Override
+    public ResponseEvent<Boolean> sendNotificationTest() {
+        log.info("method: sendNotificationTest({})");
+        String[] emails = {"draizsocial@gmail.com"} ;
+        
+        try {
+            EmailNotificationDTO email = new EmailNotificationDTO();
+        	email.setTo(emails);
+            email.setContent("SMTP Setup is working!");
+            email.setSubject("TEST SUBJECT");
+            
+            emailSender.setEmail(email);
+            emailSender.Send();
+            log.info("method: sendNotificationTest({})", "Sent succesfully");
+        
+            return new ResponseEvent<Boolean>().ok("Success", true);
+        } catch (Exception ex) {
+            log.error("method: sendNotificationTest({}, {})", ex.getMessage(), ex);
+            return new ResponseEvent<Boolean>().conflict(ex.getMessage());
+		}
+    }
+    
     @Override
     public ResponseEvent<Boolean> sendNotificationNewPurchase(ResponseEvent<PurchaseOrderDTO> responseEvent, ResponseEvent<List<OrderProductMailedDTO>> responseOrderProducts) {
         log.info("method: sendNotificationNewPurchase({})", responseEvent);
@@ -100,5 +123,8 @@ public class EmailNotificationHandler implements EmailNotificationManager{
             return new ResponseEvent<Boolean>().ok("Success", true);
 		}
     }
+    
+
+
 
 }

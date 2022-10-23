@@ -12,7 +12,7 @@ spring:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://157.245.245.169:5432/roots
     username: roots_role
-    password: rootsPwd
+    password: ${POSTGRES_PW}
     hikari:
       pool-name: PostgresHikariPool
       connection-timeout: 30000 # maximum number of milliseconds that a client will wait for a connection
@@ -38,7 +38,7 @@ spring:
     default-encoding: UTF-8
     host: smtp.gmail.com
     username: draizsocial@gmail.com
-    password: xcieebkqkwjgttsm
+    password: ${ROOTS_SMTP}
     port: 587
     properties:
       mail:
@@ -81,7 +81,7 @@ spring:
     jdbc-url: jdbc:postgresql://localhost:5432/roots
     url: jdbc:postgresql://localhost:5432/roots
     username: roots_role
-    password: rootsPwd
+    password: ${POSTGRES_PW}
     hikari:
       pool-name: PostgresHikariPool
       connection-timeout: 30000
@@ -107,7 +107,7 @@ spring:
     default-encoding: UTF-8
     host: smtp.gmail.com
     username: draizsocial@gmail.com
-    password: xcieebkqkwjgttsm
+    password: ${ROOTS_SMTP}
     port: 587
     properties:
       mail:
@@ -150,7 +150,7 @@ spring:
     jdbc-url: jdbc:postgresql://157.245.245.169:5432/roots
     url: jdbc:postgresql://157.245.245.169:5432/roots
     username: roots_role
-    password: rootsPwd
+    password: ${POSTGRES_PW}
     hikari:
       pool-name: PostgresHikariPool
       connection-timeout: 30000
@@ -176,7 +176,7 @@ spring:
     default-encoding: UTF-8
     host: smtp.gmail.com
     username: draizsocial@gmail.com
-    password: xcieebkqkwjgttsm
+    password: ${ROOTS_SMTP}
     port: 587
     properties:
       mail:

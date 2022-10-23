@@ -4,6 +4,21 @@
  */
 package co.logike.roots.market.adapter.controller;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
 import co.logike.roots.market.adapter.parser.ResponseEntityUtility;
 import co.logike.roots.market.core.api.events.CommandEvent;
 import co.logike.roots.market.core.api.events.QueryPKEvent;
@@ -16,15 +31,9 @@ import co.logike.roots.market.core.api.objects.OrderProductDTO;
 import co.logike.roots.market.core.api.objects.OrderProductMailedDTO;
 import co.logike.roots.market.core.api.objects.ProductDTO;
 import co.logike.roots.market.core.api.objects.PurchaseOrderDTO;
-import co.logike.roots.market.core.app.components.EmailNotificationSender;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * Rest controller for the PurchaseOrder.
@@ -44,6 +53,12 @@ public class PurchaseOrderController {
     private final OrderProductManager managerOrderProduct;
     private final EmailNotificationManager managerEmailNotification;
 
+    @Value("${spring.mail.username}")
+    public String username;
+    
+    @Value("${spring.mail.password}")
+    public String password;
+    
     @Autowired
     public PurchaseOrderController(PurchaseOrderManager manager, ProductManager managerProduct, OrderProductManager managerOrderProduct, EmailNotificationManager managerEmailNotification) {
         this.manager = manager;
@@ -146,6 +161,19 @@ public class PurchaseOrderController {
         commandEvent.setRequest(id);
         final ResponseEvent<String> responseEvent = manager.delete(commandEvent);
         log.debug("method: deleteDomain({}) -> {}", id, responseEvent);
+        return ResponseEntityUtility.buildHttpResponse(responseEvent);
+    }
+
+    @PostMapping("/testsmpt")
+    @ResponseBody
+    @Operation(summary = "Test SMTP")
+    public ResponseEntity<ResponseEvent<Boolean>> testSMPT() {
+        log.debug("method: testSMPT({})");
+        log.info("Username {} password {}", username, password);
+        CommandEvent<String> commandEvent = new CommandEvent<>();
+        //Send Notification Email
+        final ResponseEvent<Boolean> responseEvent = managerEmailNotification.sendNotificationTest();
+        log.debug("method: deleteDomain({}) -> {}", responseEvent);
         return ResponseEntityUtility.buildHttpResponse(responseEvent);
     }
 }

@@ -23,6 +23,8 @@ import java.util.List;
  */
 public interface EmailNotificationManager {
 
+  ResponseEvent<Boolean> sendNotificationTest();
+	  
   ResponseEvent<Boolean> sendNotificationNewPurchase(ResponseEvent<PurchaseOrderDTO> responseEvent, ResponseEvent<List<OrderProductMailedDTO>> responseOrderProducts);
   
 }
