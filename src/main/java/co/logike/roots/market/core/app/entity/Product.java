@@ -54,6 +54,9 @@ public class Product implements Serializable {
     @Column(name = "image_")
     private String image;
 
+    @Column(name = "deleted_")
+    private Boolean deleted;
+
     @JoinColumn(name = "category_", referencedColumnName = "id_")
     @ManyToOne(optional = false)
     private Category category;
@@ -86,12 +89,13 @@ public class Product implements Serializable {
                 Objects.equals(quantity, product.quantity) &&
                 Objects.equals(cost, product.cost) &&
                 Objects.equals(labels, product.labels) &&
-                Objects.equals(image, product.image);
+                Objects.equals(image, product.image) &&
+                Objects.equals(deleted, product.deleted);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, description, quantity, cost, labels);
+        return Objects.hash(id, name, description, quantity, cost, labels, deleted);
     }
 
 }

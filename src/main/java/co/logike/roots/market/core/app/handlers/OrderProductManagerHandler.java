@@ -38,15 +38,19 @@ public class OrderProductManagerHandler implements OrderProductManager {
     private final PurchaseOrderRepository purchaseOrderRepository;
     private final ProductStatusRepository productStatusRepository;
     private final OrderReportRepository orderReportRepository;
+    private final OrderGroupingProducerReportRepository orderGroupingProducerReportRepository;
+    
 
     @Autowired
     public OrderProductManagerHandler(OrderProductRepository repository, ProductRepository productRepository,
-    		PurchaseOrderRepository purchaseOrderRepository, ProductStatusRepository productStatusRepository,OrderReportRepository orderReportRepository) {
+    		PurchaseOrderRepository purchaseOrderRepository, ProductStatusRepository productStatusRepository,OrderReportRepository orderReportRepository,
+    		OrderGroupingProducerReportRepository orderGroupingProducerReportRepository ) {
         this.repository = repository;
         this.productRepository = productRepository;
         this.purchaseOrderRepository = purchaseOrderRepository;
         this.productStatusRepository = productStatusRepository;
         this.orderReportRepository = orderReportRepository;
+        this.orderGroupingProducerReportRepository = orderGroupingProducerReportRepository;
     }
 
     @Override
@@ -243,6 +247,25 @@ public class OrderProductManagerHandler implements OrderProductManager {
         } catch (Exception ex) {
             log.error("method: read({}, {})", sDate, ex.getMessage(), ex);
             return new ResponseEvent<List<OrderReport>>().conflict(ex.getMessage());
+        }
+    }
+    
+    @Override
+    public ResponseEvent<List<OrderGroupingProducerReport>> getOrdersGroupingProducer(String sDate,String eDate) {
+        log.info("method: read({})", sDate+eDate);
+        try {
+//            if (requestEvent == null)
+//                return new ResponseEvent<List<OrderReport>>().badRequest("event is null.");
+//            if (requestEvent.getRequest() == null)
+//                return new ResponseEvent<List<OrderReport>>().badRequest("event.request is null.");
+            //final String id = requestEvent.getRequest();
+            //Long idL = Long.valueOf(id);
+            List<OrderGroupingProducerReport> orderProductDTO = orderGroupingProducerReportRepository.findOrdersGroupingByProducer(sDate,eDate);
+            //OrderProductDTO orderProductDTO = OrderProductParser.setOrderProductDTO(null);
+            return new ResponseEvent<List<OrderGroupingProducerReport>>().ok("Success", orderProductDTO);
+        } catch (Exception ex) {
+            log.error("method: read({}, {})", sDate, ex.getMessage(), ex);
+            return new ResponseEvent<List<OrderGroupingProducerReport>>().conflict(ex.getMessage());
         }
     }
 }

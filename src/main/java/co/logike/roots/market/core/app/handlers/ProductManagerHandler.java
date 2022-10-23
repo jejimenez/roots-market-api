@@ -70,11 +70,11 @@ public class ProductManagerHandler implements ProductManager {
 
 
     @Override
-    public ResponseEvent<List<ProductDTO>> readAllOrderBy(String orderBy) {
+    public ResponseEvent<List<ProductDTO>> readNotDeletedOrderBy(String orderBy) {
         log.debug("method: readAll()");
         try {
             List<ProductDTO> finalList = new ArrayList<>();
-            List<Product> productList = repository.findAll(Sort.by(Sort.Direction.ASC, orderBy).and(Sort.by("name")));
+            List<Product> productList = repository.findByDeletedFalse(Sort.by(Sort.Direction.ASC, orderBy).and(Sort.by("name")));
             for (Product product : productList) {
                 ProductDTO productDTO = ProductParser.setProductDTO(product);
                 finalList.add(productDTO);
@@ -85,7 +85,6 @@ public class ProductManagerHandler implements ProductManager {
             return new ResponseEvent<List<ProductDTO>>().conflict(ex.getMessage());
         }
     }
-
 
 
     @Override

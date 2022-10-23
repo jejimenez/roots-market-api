@@ -5,7 +5,9 @@ import co.logike.roots.market.core.api.events.QueryPKEvent;
 import co.logike.roots.market.core.api.events.ResponseEvent;
 import co.logike.roots.market.core.api.manager.OrderProductManager;
 import co.logike.roots.market.core.api.objects.ProductDTO;
+import co.logike.roots.market.core.app.components.OrderGroupingProducerExcelExporter;
 import co.logike.roots.market.core.app.components.UserExcelExporter;
+import co.logike.roots.market.core.app.entity.OrderGroupingProducerReport;
 import co.logike.roots.market.core.app.entity.OrderReport;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -62,12 +64,33 @@ public class OrderManagerController {
         String currentDateTime = dateFormatter.format(new Date());
 
         String headerKey = "Content-Disposition";
-        String headerValue = "attachment; filename=users_" + currentDateTime + ".xlsx";
+        String headerValue = "attachment; filename=orders_" + currentDateTime + ".xlsx";
         response.setHeader(headerKey, headerValue);
         ResponseEvent<List<OrderReport>> orderReport = manager.getOrders(sDate,eDate);
 //        List<User> listUsers = service.listAll();
 //
         UserExcelExporter excelExporter = new UserExcelExporter(orderReport.getData());
+//
+        excelExporter.export(response);
+    }
+
+    @GetMapping("/orders_grouping_producer/export/excel/{sDate}/{eDate}")
+    public void exportExcelOrdersProducer(@PathVariable("sDate") String sDate,@PathVariable("eDate") String eDate,HttpServletResponse response ) throws IOException {
+
+        log.info(eDate+sDate);
+        QueryPKEvent<String> readEvent = new QueryPKEvent<>();
+        readEvent.setRequest("1");
+        response.setContentType("application/octet-stream");
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String currentDateTime = dateFormatter.format(new Date());
+
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=orders_producer_" + currentDateTime + ".xlsx";
+        response.setHeader(headerKey, headerValue);
+        ResponseEvent<List<OrderGroupingProducerReport>> orderReport = manager.getOrdersGroupingProducer(sDate,eDate);
+//        List<User> listUsers = service.listAll();
+//
+        OrderGroupingProducerExcelExporter excelExporter = new OrderGroupingProducerExcelExporter(orderReport.getData());
 //
         excelExporter.export(response);
     }

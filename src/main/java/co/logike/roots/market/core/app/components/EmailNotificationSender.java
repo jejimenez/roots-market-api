@@ -1,5 +1,6 @@
 package co.logike.roots.market.core.app.components;
 
+import java.math.RoundingMode;
 import java.util.List;
 
 import javax.mail.MessagingException;
@@ -61,7 +62,7 @@ public class EmailNotificationSender {
 	public SimpleMailMessage templateNewOrder() {
 	    SimpleMailMessage message = new SimpleMailMessage();
 	    message.setText(
-	      "Se ha creado una nueva orden desde http://alimentaccionalternativa.draiz.co/ de %s con los siguientes productos"
+	      "Se ha creado una nueva orden desde http://alimentaccionalternativa.draiz.co/ de %s con la siguiente información:"
 	      + ":<br>%s");
 	    return message;
 	}
@@ -71,28 +72,65 @@ public class EmailNotificationSender {
 		String suser = "<b>"+purchase.getPerson()+"</b>";
 		String br = "<br>";
 		String sproducts ="";
+		Float total = new Float(0);
+		
+		sproducts += "<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">";
+		sproducts += "<tr>";
+		sproducts += "<td>"+purchase.getPerson()+" "+"</td>";
+		sproducts += "</tr>";
+		sproducts += "<tr>";
+		sproducts += "<td>"+orderPerson.getAddress()+" "+orderPerson.getCity()+", "+orderPerson.getState()+"</td>";
+		sproducts += "</tr>";
+		sproducts += "<tr>";
+		sproducts += "<td>"+orderPerson.getTelephone()+" "+"</td>";
+		sproducts += "</tr>";
+		sproducts += "<tr>";
+		sproducts += "<td>"+orderPerson.getEmail()+" "+"</td>";
+		sproducts += "</tr>";
+		sproducts += "</table>";
+		
+		
 		sproducts += "<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\">";
 		sproducts += "<tr>";
 		sproducts += "<td>"+"Producto"+" "+"</td>";
 		sproducts += "<td>"+"Presentación"+" "+"</td>";
 		sproducts += "<td>"+"Cantidad"+" "+"</td>";
-		sproducts += "<tr>";
+		sproducts += "<td>"+"Precio"+" "+"</td>";
+		sproducts += "<td>"+"Total"+" "+"</td>";
+		sproducts += "</tr>";
 		for(OrderProductMailedDTO products:OProducts) {
 			sproducts += "<tr>";
 			sproducts += "<td>"+products.getProduct()+" "+"</td>";
-			sproducts += "<td>"+products.getQuantity()+" "+"";
-			sproducts += ""+products.getUnit()+" "+"</td>";
+			sproducts += "<td>"+products.getQuantity()+" "+""+products.getUnit()+" "+"</td>";
 			sproducts += "<td>"+products.getUnits()+" "+"</td>";
-			sproducts += "<tr>";
+			sproducts += "<td> $ "+String.format("%,.2f", (Float.valueOf(products.getCost())))+" "+"</td>";
+			sproducts += "<td> $ "+String.format("%,.2f", (Float.valueOf(products.getCost()) * Float.valueOf(products.getUnits())))+" "+"</td>";
+			sproducts += "</tr>";
+			total += (Float.valueOf(products.getCost()) * Float.valueOf(products.getUnits()));
 		}
+		sproducts += "<tr>";
+		sproducts += "<td colspan='4'>"+"Total Compra"+" "+"</td>";
+		sproducts += "<td> $ "+String.format("%,.2f", total)+" "+"</td>";
+		sproducts += "</tr>";
+		sproducts += "<tr>";
+		sproducts += "<td colspan='4'>"+"Domicilio"+" "+"</td>";
+		sproducts += "<td> $ "+String.format("%,.2f", Float.valueOf(12000))+" "+"</td>";
+		sproducts += "</tr>";
+		total += (Float.valueOf(12000));
+		sproducts += "<tr>";
+		sproducts += "<td colspan='4'>"+"Total"+" "+"</td>";
+		sproducts += "<td> $ "+String.format("%,.2f", total)+" "+"</td>";
+		sproducts += "</tr>";
 		sproducts += "</table>";
 		sproducts += br;
 		sproducts += br;
-		sproducts += "<b>Datos de envío<b>"+br;
-		sproducts += "<b>Ciudad:<b>"+orderPerson.getCity()+br;
-		sproducts += "<b>Departamento:<b>"+orderPerson.getState()+br;
-		sproducts += "<b>Dirección:<b>"+orderPerson.getAddress()+br;
-		sproducts += "<b>Teléfono:<b>"+orderPerson.getTelephone()+br;
+		sproducts += "Un fraterno saludo. \n" + 
+				"\n" + 
+				"Tu pedido está confirmado. Si tienes dudas puedes llamarnos al 3157525984. Puedes pagar el valor de esta orden en el Daviplata 3157525984 o Ahorro a la Mano de  Bancolombia 13157525984 a nombre de Marcela Guerrero Capacho CC 52851895.\n" + 
+				"\n" + br + 
+				"Te agradecemos por participar en esta propuesta de coompra colectiva, con la cual  garantizamos la sustentabilidad de los proyectos agroecologicos participantes.";
+		
+		
 		
 		/*
         <div *ngFor="let product of products">

@@ -62,6 +62,7 @@ public class EmailNotificationHandler implements EmailNotificationManager{
     public ResponseEvent<Boolean> sendNotificationNewPurchase(ResponseEvent<PurchaseOrderDTO> responseEvent, ResponseEvent<List<OrderProductMailedDTO>> responseOrderProducts) {
         log.info("method: sendNotificationNewPurchase({})", responseEvent);
         PurchaseOrderDTO purchase = responseEvent.getData();
+        String[] emails ;
         List<OrderProductMailedDTO> ordproducts = responseOrderProducts.getData();
         try {
         	// Get admin email
@@ -69,22 +70,34 @@ public class EmailNotificationHandler implements EmailNotificationManager{
         	// Get order email
 	        Person orderPerson = personRepository.findByPurchaseOrd(Long.parseLong(purchase.getId()));
 	        //
+	        emails = new String[adminList.size()+1];
+	        int i = 0;
+	        // Email admin 
 	        for(Person person:adminList) {
-	            EmailNotificationDTO email = new EmailNotificationDTO();
+	            emails[i] = person.getEmail();
 	            log.info("method: sendNotificationNewPurchase({})",  person.getEmail());
-	        	email.setTo(new String[]{person.getEmail(), orderPerson.getEmail()});
-	            email.setContent("");
-	            email.setSubject("Nuevo Pedido");
-	            //EmailNotificationSender sender = new EmailNotificationSender();
-	            emailSender.setEmail(email);
-	            emailSender.BuildNewPurchaseMessage(purchase, ordproducts, orderPerson);
-	            emailSender.Send();
-	            log.info("method: sendNotificationNewPurchase({})", "Sent succesfully");
+	            i++;
 	        }
+	        // Email order owner
+	        emails[i] = orderPerson.getEmail();
+            log.info("method: sendNotificationNewPurchase({})",  orderPerson.getEmail());
+            EmailNotificationDTO email = new EmailNotificationDTO();
+	        //email.setTo(new String[]{person.getEmail(), orderPerson.getEmail()});
+        	email.setTo(emails);
+            email.setContent("");
+            email.setSubject("Nueva Orden");
+            //EmailNotificationSender sender = new EmailNotificationSender();
+            emailSender.setEmail(email);
+            emailSender.BuildNewPurchaseMessage(purchase, ordproducts, orderPerson);
+            emailSender.Send();
+            log.info("method: sendNotificationNewPurchase({})", "Sent succesfully");
+        
             return new ResponseEvent<Boolean>().ok("Success", true);
         } catch (Exception ex) {
             log.error("method: sendNotificationNewPurchase({}, {})", ex.getMessage(), ex);
-            return new ResponseEvent<Boolean>().conflict(ex.getMessage());
+            //return new ResponseEvent<Boolean>().conflict(ex.getMessage());
+            // If there is an email error anyway the answer is success because the order was created
+            return new ResponseEvent<Boolean>().ok("Success", true);
 		}
     }
 

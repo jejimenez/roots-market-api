@@ -56,3 +56,9 @@ To run the project:
 ##### 5. Check that everything is ok:
 
     docker logs roots-market-api --tail 300
+##Swagger
+	
+	http://localhost:{port}/swagger-ui/index.html
+	Explore: /v3/api-docs/
+
+

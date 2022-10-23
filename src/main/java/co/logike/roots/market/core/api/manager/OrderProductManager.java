@@ -9,6 +9,7 @@ import co.logike.roots.market.core.api.events.QueryPKEvent;
 import co.logike.roots.market.core.api.events.ResponseEvent;
 import co.logike.roots.market.core.api.objects.OrderProductDTO;
 import co.logike.roots.market.core.api.objects.OrderProductMailedDTO;
+import co.logike.roots.market.core.app.entity.OrderGroupingProducerReport;
 import co.logike.roots.market.core.app.entity.OrderReport;
 
 
@@ -38,4 +39,6 @@ public interface OrderProductManager {
   ResponseEvent<String> delete(CommandEvent<String> requestEvent);
 
   ResponseEvent<List<OrderReport>> getOrders(String sDate,String eDate);
+
+  ResponseEvent<List<OrderGroupingProducerReport>> getOrdersGroupingProducer(String sDate,String eDate);
 }

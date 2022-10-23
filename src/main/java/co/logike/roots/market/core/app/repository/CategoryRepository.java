@@ -22,4 +22,7 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
 
     @Query(value = "SELECT * FROM CATEGORY WHERE ID_ = :id", nativeQuery = true)
     Category findByIdent(@Param("id") Long id);
+    
+    @Query(value = "SELECT * FROM CATEGORY C WHERE EXISTS (SELECT 1 FROM PRODUCT WHERE CATEGORY_ = C.ID_ AND DELETED_ = FALSE)", nativeQuery = true)
+    Category findAllByNotEmpty();
 }

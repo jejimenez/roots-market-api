@@ -30,6 +30,7 @@ public class OrderProductMailedDTO implements Serializable {
 
     private String quantity;
     private String unit;
+    private String cost;
     
 
     @Override
