@@ -60,5 +60,13 @@ To run the project:
 	
 	http://localhost:{port}/swagger-ui/index.html
 	Explore: /v3/api-docs/
+##Environment Variables
+	
+Require the below environment variables:
+	
+	POSTGRES_PW='Postgres database password'
+	ROOTS_SMTP='Email app password'
+	
+	
 
 

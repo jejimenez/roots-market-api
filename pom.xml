@@ -45,7 +45,7 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>42.2.15</version>
+            <version>42.5.0</version>
         </dependency>
         <!-- Miscellaneous libs -->
         <dependency>
@@ -125,6 +125,8 @@
                     <repository>roots/${project.artifactId}</repository>
                     <buildArgs>
                         <JAR_FILE>target/${project.build.finalName}.war</JAR_FILE>
+                        <POSTGRES_PW>${env.POSTGRES_PW}</POSTGRES_PW>
+                        <ROOTS_SMTP>${env.ROOTS_SMTP}</ROOTS_SMTP>
                     </buildArgs>
                 </configuration>
             </plugin>
