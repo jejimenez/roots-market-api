@@ -21,6 +21,7 @@ public class CategoryParser {
         domain.setName(entity.getName());
         domain.setId(entity.getId().toString());
         domain.setOrderNum(entity.getOrderNum().toString());
+        domain.setGroupCategory(entity.getCategoryGroup().getId().toString());
         return domain;
     }
 

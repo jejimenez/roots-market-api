@@ -43,6 +43,12 @@ public class Category implements Serializable {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
     private Collection<Product> productCollection;
+    
+
+    @JoinColumn(name = "category_group_", referencedColumnName = "id_")
+    @ManyToOne(optional = false)
+    private CategoryGroup categoryGroup;
+
 
     @Override
     public boolean equals(Object o) {

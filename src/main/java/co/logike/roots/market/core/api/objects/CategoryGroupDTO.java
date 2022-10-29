@@ -8,23 +8,24 @@ import com.google.gson.Gson;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
- * Data transfer object for the Category entity.
+ * Data transfer object for the CategoryGroup entity.
  *
  * @author <a href="mailto:jimenez.ing.sis@gmail.com">Jaime Jimenez</a>
  * @version 1.0 2020-09-05
  * @since 1.0
  */
 @Data
-public class CategoryDTO implements Serializable {
+public class CategoryGroupDTO implements Serializable {
 
-	private static final long serialVersionUID = -7514772030012312628L;
+	private static final long serialVersionUID = -7514772037712312628L;
 	
 	private String id;
     private String name;
     private String orderNum;
-    private String groupCategory;
+    private String organization;
 
     @Override
     public String toString() {

@@ -27,6 +27,7 @@ public class ProductParser {
         domain.setName(entity.getName());
         domain.setId(entity.getId().toString());
         domain.setCategory(entity.getCategory().getName());
+        domain.setCategoryGroup(entity.getCategory().getCategoryGroup() == null ? "" : entity.getCategory().getCategoryGroup().getId().toString());
         domain.setCost(entity.getCost() == null ? "" : entity.getCost().toString());
         domain.setLabels(entity.getLabels());
         domain.setImage(entity.getImage());
