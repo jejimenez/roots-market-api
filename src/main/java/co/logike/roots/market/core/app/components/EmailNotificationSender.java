@@ -126,9 +126,9 @@ public class EmailNotificationSender {
 		sproducts += br;
 		sproducts += "Un fraterno saludo. \n" + 
 				"\n" + 
-				"Tu pedido está confirmado. Si tienes dudas puedes llamarnos al 3157525984. Puedes pagar el valor de esta orden en el Daviplata 3157525984 o Ahorro a la Mano de  Bancolombia 13157525984 a nombre de Marcela Guerrero Capacho CC 52851895.\n" + 
+				"Si tienes dudas puedes llamarnos al 3157525984. Para confirmar tu pedido puedes Pagar por transferencia o consignación a Daviplata 3157525984 cc 52851895.\n" + 
 				"\n" + br + 
-				"Te agradecemos por participar en esta propuesta de coompra colectiva, con la cual  garantizamos la sustentabilidad de los proyectos agroecologicos participantes.";
+				"Si tienes Nequi puedes envíar desde la app  por el link de envía/transfiya/ al cel 3157525984.";
 		
 		
 		
